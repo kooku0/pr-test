@@ -31,7 +31,7 @@ jobs:
         run: |
           content=$(cat ./bundle-analyze.txt | sed '1,2d')
           content_encoded=$(echo "${content//$'\n'/%0A}")
-          echo "::set-output name=content::$content_encoded"
+          echo "{content}={$content_encoded}" >> $GITHUB_OUTPUT
 
       - name: PR comment with reactions
         uses: thollander/actions-comment-pull-request@v2
