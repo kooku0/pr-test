@@ -3,7 +3,7 @@ name: Bundle Analyze
 on: [pull_request]
 
 jobs:
-  bundle-analyze:
+  coverage:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -14,17 +14,22 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Bundle Analyze
-        id: bundle-analyze
+      - name: Build
         run: yarn build
 
-      - name: PR comment
-        run: echo ${{ steps.bundle-analyze.outputs.bundle-analyze }}
+      # - name: Print File
+      #   id: bundle-analyze
+      #   run: echo "{bundle-analyze}={${{  bundle-analyze.txt}}}" >> $GITHUB_OUTPUT
+      - name: Read bundle-analyze.txt
+        uses: ./actions/read-file-action
+        with:
+          file-path: "bundle-analyze.txt"
+        id: bundle-analyze
 
-      # - name: PR comment with reactions
-      #   uses: thollander/actions-comment-pull-request@v2
-      #   with:
-      #     message: |
-      #       ## Bundle Analyze
-      #       ${{ steps.bundle-analyze.outputs.bundle-analyze }}
-      #     reactions: eyes, rocket
+      - name: PR comment with reactions
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: |
+            ## Bundle Analyze
+            ${{ steps.bundle-analyze.outputs.bundle-analyze }}
+          reactions: eyes, rocket
