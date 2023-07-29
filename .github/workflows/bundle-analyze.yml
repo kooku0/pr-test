@@ -30,7 +30,7 @@ jobs:
         id: bundle-analyze
         run: |
           content=$(echo "`cat ./bundle-analyze.txt`")
-          content_encoded=$(echo "${content//$'\n'/<%0A>}")
+          content_encoded=$(echo "${content//$'\n'/%0A}")
           echo "::set-output name=content::$content_encoded"
 
       - name: PR comment with reactions
