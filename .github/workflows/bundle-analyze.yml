@@ -33,8 +33,8 @@ jobs:
         uses: thollander/actions-comment-pull-request@v2
         with:
           message: |
-            <h2> :bar_chart: Bundle Analyze</h2>
-            <strong>새로운 패키지를 추가했다면 꼭 확인해보세요 🙄 :memo: </strong><br/>
+            <h2> :dart: Bundle Analyze</h2>
+            <strong>새로운 패키지를 추가했다면 꼭 확인해보세요 🙄 :gem: </strong><br/>
             번들사이즈가 큰 상위 10개 파일을 확인해볼 수 있어요.
             <br/>
             <br/>
@@ -43,6 +43,6 @@ jobs:
             ${{ steps.bundle-analyze.outputs.content }}
 
             </details>
-          reactions: eyes, rocket
+          reactions: eyes, rocket, tada
           comment_tag: execution
-          mode: upset
+          mode: upsert
