@@ -21,15 +21,15 @@ jobs:
       #   id: bundle-analyze
       #   run: echo "{bundle-analyze}={${{  bundle-analyze.txt}}}" >> $GITHUB_OUTPUT
       - name: Read bundle-analyze.txt
-        uses: ./actions/read-file-action
-        with:
-          file-path: "bundle-analyze.txt"
         id: bundle-analyze
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: "bundle-analyze.txt"
 
       - name: PR comment with reactions
         uses: thollander/actions-comment-pull-request@v2
         with:
           message: |
             ## Bundle Analyze
-            ${{ steps.bundle-analyze.outputs.bundle-analyze }}
+            ${{ steps.bundle-analyze.outputs.content }}
           reactions: eyes, rocket
