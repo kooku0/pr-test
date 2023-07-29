@@ -20,21 +20,23 @@ jobs:
       - name: Build
         run: yarn build
 
-      # - name: Print File
+      # - name: Read bundle-analyze.txt
       #   id: bundle-analyze
-      #   run: echo "{bundle-analyze}={${{  bundle-analyze.txt}}}" >> $GITHUB_OUTPUT
-      - name: Read bundle-analyze.txt
+      #   uses: juliangruber/read-file-action@v1
+      #   with:
+      #     path: "bundle-analyze.txt"
+
+      - name: Read analyze report
         id: bundle-analyze
-        uses: juliangruber/read-file-action@v1
-        with:
-          path: "bundle-analyze.txt"
+        run: |
+          echo "::set-output name=content::$(cat ./bundle-analyze.txt)"
 
       - name: PR comment with reactions
         uses: thollander/actions-comment-pull-request@v2
         with:
           message: |
-            <h2> :dart: Bundle Analyze</h2>
-            <strong>새로운 패키지를 추가했다면 꼭 확인해보세요 🙄 :gem: </strong><br/>
+            <h2> :pencil: Bundle Analyze</h2>
+            <strong>새로운 패키지를 추가했다면 꼭 확인해보세요 🙄 </strong><br/>
             번들사이즈가 큰 상위 10개 파일을 확인해볼 수 있어요.
             <br/>
             <br/>
@@ -43,6 +45,6 @@ jobs:
             ${{ steps.bundle-analyze.outputs.content }}
 
             </details>
-          reactions: eyes, rocket, tada
+          reactions: eyes, rocket
           comment_tag: execution
           mode: upsert
