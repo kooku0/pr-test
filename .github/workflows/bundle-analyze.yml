@@ -33,6 +33,14 @@ jobs:
         uses: thollander/actions-comment-pull-request@v2
         with:
           message: |
-            ## Bundle Analyze
+            <h2> :memo: Bundle Analyze</h2>
+            <strong>새로운 패키지를 추가했다면 꼭 확인해보세요 🙄 </strong><br/>
+            번들사이즈가 큰 상위 10개 파일을 확인해볼 수 있어요.
+            <br/>
+            <br/>
+            <details><summary><strong>분석결과 보기</strong></summary>
+
             ${{ steps.bundle-analyze.outputs.content }}
+
+            </details>
           reactions: eyes, rocket
