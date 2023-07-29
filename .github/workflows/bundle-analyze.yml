@@ -29,9 +29,7 @@ jobs:
       - name: Read analyze report
         id: bundle-analyze
         run: |
-          content=$(cat ./bundle-analyze.txt | sed '1,2d')
-          content_encoded=$(echo "${content//$'\n'/%0A}")
-          echo "content=$content" >> $GITHUB_OUTPUT
+          echo "content=$(cat ./bundle-analyze.txt | sed '1,2d')" >> $GITHUB_OUTPUT
 
       - name: PR comment with reactions
         uses: thollander/actions-comment-pull-request@v2
