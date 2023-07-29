@@ -3,7 +3,7 @@ name: Bundle Analyze
 on: [pull_request]
 
 jobs:
-  coverage:
+  bundle-analyze:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -19,7 +19,7 @@ jobs:
         run: yarn build
 
       - name: PR comment
-        run: echo ${{ steps.bundle-analyze.outputs }}
+        run: echo ${{ steps.bundle-analyze.outputs.bundle-analyze }}
 
       # - name: PR comment with reactions
       #   uses: thollander/actions-comment-pull-request@v2
