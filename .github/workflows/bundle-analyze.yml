@@ -29,7 +29,7 @@ jobs:
       - name: Read analyze report
         id: bundle-analyze
         run: |
-          content=$(cat ./bundle-analyze.txt | sed '1,3d')
+          content=$(cat ./bundle-analyze.txt | sed '1,2d')
           content_encoded=$(echo "${content//$'\n'/%0A}")
           echo "::set-output name=content::$content_encoded"
 
