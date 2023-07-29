@@ -30,6 +30,7 @@ jobs:
         id: bundle-analyze
         run: |
           content=$(echo "`cat ./bundle-analyze.txt`")
+          content="${content//$'\n'/ }"
           echo "::set-output name=content::$content"
 
       - name: PR comment with reactions
