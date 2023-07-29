@@ -11,14 +11,20 @@ jobs:
         with:
           node-version: 16.16.0
 
-      - name: Print File
-        id: bundle-analyze
-        run: echo "::set-output name=bundle-analyze::$(cat bundle-analyze.txt)"
+      - name: Install dependencies
+        run: yarn install
 
-      - name: PR comment with reactions
-        uses: thollander/actions-comment-pull-request@v2
-        with:
-          message: |
-            ## Bundle Analyze
-            ${{ steps.bundle-analyze.outputs.bundle-analyze }}
-          reactions: eyes, rocket
+      - name: Bundle Analyze
+        id: bundle-analyze
+        run: yarn build
+
+      - name: PR comment
+        run: echo ${{ steps.bundle-analyze.outputs }}
+
+      # - name: PR comment with reactions
+      #   uses: thollander/actions-comment-pull-request@v2
+      #   with:
+      #     message: |
+      #       ## Bundle Analyze
+      #       ${{ steps.bundle-analyze.outputs.bundle-analyze }}
+      #     reactions: eyes, rocket
