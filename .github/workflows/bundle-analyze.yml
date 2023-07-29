@@ -10,5 +10,15 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16.16.0
+
       - name: Print File
-        run: cat bundle-analyze.txt
+        id: bundle-analyze
+        run: echo "::set-output name=bundle-analyze::$(cat bundle-analyze.txt)"
+
+      - name: PR comment with reactions
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: |
+            ## Bundle Analyze
+            ${{ steps.bundle-analyze.outputs.bundle-analyze }}
+          reactions: eyes, rocket
