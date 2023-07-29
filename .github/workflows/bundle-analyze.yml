@@ -14,11 +14,11 @@ jobs:
         with:
           node-version: 16.16.0
 
-      - name: Install dependencies
-        run: yarn install
+      # - name: Install dependencies
+      #   run: yarn install
 
-      - name: Build
-        run: yarn build
+      # - name: Build
+      #   run: yarn build
 
       # - name: Read bundle-analyze.txt
       #   id: bundle-analyze
@@ -29,7 +29,8 @@ jobs:
       - name: Read analyze report
         id: bundle-analyze
         run: |
-          echo "::set-output name=content::$(cat ./bundle-analyze.txt)"
+          content=$(echo "`cat ./bundle-analyze.txt`")
+          echo "::set-output name=content::$content"
 
       - name: PR comment with reactions
         uses: thollander/actions-comment-pull-request@v2
