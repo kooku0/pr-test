@@ -6,7 +6,7 @@ RUN mkdir -p "$HOME/bin" && \
     wget https://github.com/denisidoro/docpars/releases/download/v0.2.0/docpars-v0.2.0-x86_64-unknown-linux-musl.tar.gz && tar xvfz docpars-v0.2.0-x86_64-unknown-linux-musl.tar.gz -C ./ && \
     chmod +x docpars
 
-ADD entrypoint.sh ./.github/pr-size-labeler/entrypoint.sh
-ADD src ./.github/pr-size-labeler/src
+ADD .github/pr-size-labeler/entrypoint.sh /entrypoint.sh
+ADD .github/pr-size-labeler/src /src
 
 ENTRYPOINT ["/entrypoint.sh"]
