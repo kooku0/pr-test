@@ -6,7 +6,10 @@ RUN mkdir -p "$HOME/bin" && \
     wget https://github.com/denisidoro/docpars/releases/download/v0.2.0/docpars-v0.2.0-x86_64-unknown-linux-musl.tar.gz && tar xvfz docpars-v0.2.0-x86_64-unknown-linux-musl.tar.gz -C ./ && \
     chmod +x docpars
 
-ADD entrypoint.sh ./entrypoint.sh
-ADD src ./src
+ADD entrypoint.sh /entrypoint.sh
+ADD src /src
 
-ENTRYPOINT ["./entrypoint.sh"]
+RUN chmod +x /entrypoint.sh
+RUN chmod +x /src
+
+ENTRYPOINT ["/entrypoint.sh"]
