@@ -17,7 +17,7 @@ jobs:
         run: |
           PATTERN='^\[([A-Z]+-\d+|NO-JIRA)\] .+$'
           if [[ ! "${PR_TITLE}" =~ ${PATTERN} ]]; then
-            echo -e "PR Title이 올바르지 않습니다.ex) [NO-JIRA] PR Title, [JIRA-123] PR Title"
+            echo -e "PR Title이 올바르지 않습니다.\nex) [NO-JIRA] PR Title, [JIRA-123] PR Title"
             exit 1
           else
             echo "Pass."
