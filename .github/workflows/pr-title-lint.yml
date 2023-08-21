@@ -1,0 +1,24 @@
+name: PR Title Lint
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  pr-title-lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check PR Title
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          PATTERN='^\[([A-Z]+-\d+|NO-JIRA)\] .+$'
+          if [[ ! "${PR_TITLE}" =~ ${PATTERN} ]]; then
+            echo "PR Title이 올바르지 않습니다. ex) [NO-JIRA] PR Title, [JIRA-123] PR Title"
+            exit 1
+          else
+            echo "Pass."
+          fi
