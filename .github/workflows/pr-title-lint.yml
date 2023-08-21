@@ -17,7 +17,7 @@ jobs:
         env:
           PR_TITLE: ${{ github.event.pull_request.title }}
         run: |
-          PATTERN='^\[([A-Z]+-\d+|NO-JIRA)\] .+$'
+          PATTERN='^\[([A-Z]+-[0-9]+|NO-JIRA)\] .+$'
           if [[ ! "${PR_TITLE}" =~ ${PATTERN} ]]; then
             echo -e "PR Title이 올바르지 않습니다.\nex) [NO-JIRA] PR Title, [JIRA-123] PR Title"
             exit 1
