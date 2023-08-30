@@ -6,7 +6,7 @@ on:
       - opened
       - reopened
     branches-ignore:
-      - 'main'
+      - 'dev'
 
 jobs:
   pr-title-lint:
