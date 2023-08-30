@@ -1,0 +1,52 @@
+name: Bundle Analyze
+
+on: [pull_request]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.16.0
+
+      # - name: Install dependencies
+      #   run: yarn install
+
+      # - name: Build
+      #   run: yarn build
+
+      # - name: Read bundle-analyze.txt
+      #   id: bundle-analyze
+      #   uses: juliangruber/read-file-action@v1
+      #   with:
+      #     path: "bundle-analyze.txt"
+
+      - name: Read analyze report
+        id: bundle-analyze
+        run: |
+          content=$(cat ./bundle-analyze.txt | sed '1,2d')
+          content_encoded=$(echo "${content//$'\n'/%0A}")
+          echo "::set-output name=content::$content_encoded"
+
+      - name: PR comment with reactions
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: |
+            <h2> :pencil: Bundle Analyze</h2>
+            <strong>새로운 패키지를 추가했다면 꼭 확인해보세요 🙄 </strong><br/>
+            번들사이즈가 큰 상위 10개 파일을 확인해볼 수 있어요.
+            <br/>
+            <br/>
+            <details><summary><strong>분석결과 보기</strong></summary>
+
+            ${{ steps.bundle-analyze.outputs.content }}
+
+            </details>
+          reactions: eyes, rocket
+          comment_tag: execution
+          mode: upsert
