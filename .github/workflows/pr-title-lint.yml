@@ -6,7 +6,8 @@ on:
       - opened
       - edited
       - reopened
-      - synchronize
+    branches-ignore:
+      - 'main'
 
 jobs:
   pr-title-lint:
