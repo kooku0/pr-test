@@ -19,7 +19,7 @@ jobs:
           TARGET_BRANCH: ${{ github.event.pull_request.base.ref }}
         run: |
           BRANCH_TITLE_PATTERN='^\[([A-Z]+-[0-9]+|NO-JIRA)\] .+$'
-          MAIN_BRANCH_TITLE_PATTERN='^(v\d{12}|\[HOT-FIX\] .+)$'
+          MAIN_BRANCH_TITLE_PATTERN='^(v[0-9]{12}|\[HOT-FIX\] .+)$'
 
           if [[ "${TARGET_BRANCH}" == "main" ]]; then
             PATTERN="${MAIN_BRANCH_TITLE_PATTERN}"
