@@ -7,8 +7,6 @@ on:
       - edited
       - reopened
       - synchronize
-    branches-ignore:
-      - 'main'
 
 jobs:
   pr-title-lint:
@@ -18,11 +16,20 @@ jobs:
       - name: Check PR Title
         env:
           PR_TITLE: ${{ github.event.pull_request.title }}
+          TARGET_BRANCH: ${{ github.event.pull_request.base.ref }}
         run: |
-          PATTERN='^\[([A-Z]+-[0-9]+|NO-JIRA)\] .+$'
+          BRANCH_TITLE_PATTERN='^\[([A-Z]+-[0-9]+|NO-JIRA)\] .+$'
+          MAIN_BRANCH_TITLE_PATTERN='^(v\d{12}|\[HOT-FIX\] .+)$'
+
+          if [[ "${TARGET_BRANCH}" == "main" ]]; then
+            PATTERN="${MAIN_BRANCH_TITLE_PATTERN}"
+          else
+            PATTERN="${BRANCH_TITLE_PATTERN}"
+          fi
+
           if [[ ! "${PR_TITLE}" =~ ${PATTERN} ]]; then
-            echo -e "PR Title이 올바르지 않습니다.\nex) [NO-JIRA] PR Title, [JIRA-123] PR Title"
+            echo -e "PR Title이 올바르지 않습니다.\n- [NO-JIRA] PR Title\n- [JIRA-123] PR Title\n- v202308301300\n- [HOT-FIX] PR Title"
             exit 1
           else
-            echo "Pass."
+            echo "PASS"
           fi
