@@ -22,3 +22,5 @@ jobs:
         if: steps.extract-urgency.outputs.urgency != ''
         run: |
           gh pr edit ${{ github.event.pull_request.number }} --add-label ${{ steps.extract-urgency.outputs.urgency }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
