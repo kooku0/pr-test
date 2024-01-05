@@ -12,6 +12,8 @@ jobs:
 
       - name: Find and add label
         run: |
-          echo ${{ github.event.pull_request.body }}
+          bodyText=$(echo "${{ github.event.pull_request.body }}")
+          urgency=$(echo "$bodyText" | grep -o 'D-[0-9]')
+          echo "Urgency: $urgency"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
