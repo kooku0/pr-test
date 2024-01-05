@@ -15,5 +15,27 @@ jobs:
           bodyText=$(echo "${{ github.event.pull_request.body }}")
           urgency=$(echo "$bodyText" | grep -o 'D-[0-9]')
           echo "Urgency: $urgency"
+          echo "::set-output name=urgency::$urgency"
+
+      - name: Add label based on urgency
+        if: steps.extract-urgency.outputs.urgency != ''
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const urgency = '${{ steps.extract-urgency.outputs.urgency }}';
+            const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
+
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const issue_number = context.issue.number;
+
+            // Add label based on the extracted urgency
+            octokit.issues.addLabels({
+              owner,
+              repo,
+              issue_number,
+              labels: [urgency]
+            });
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
