@@ -19,8 +19,6 @@ jobs:
           echo "::set-output name=urgency::$urgency"
 
       - name: add labels
-        uses: actions-ecosystem/action-add-labels@v1
         if: steps.extract-urgency.outputs.urgency != ''
-        with:
-          labels: |
-            ${{ urgency }}
+        run: |
+          gh pr edit ${{ github.event.pull_request.number }} --add-label ${{ steps.extract-urgency.outputs.urgency }}
