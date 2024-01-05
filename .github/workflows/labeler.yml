@@ -12,22 +12,6 @@ jobs:
 
       - name: Find and add label
         run: |
-          body=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-                -H "Accept: application/vnd.github.v3+json" \
-                ${{ github.api_url }}/repos/${{ github.repository }}/pulls/${{ github.event.number }} | \
-                jq -r '.body')
-
-          urgency=$(echo "$body" | grep -oP 'D-\K[0-9]+' || true)
-
-          if [ -n "$urgency" ]; then
-            case $urgency in
-              0) label="D-0";;
-              1) label="D-1";;
-              2) label="D-2";;
-              *) label="D-3+";;
-            esac
-
-            echo "LABEL=$label" >> $GITHUB_ENV
-          fi
+          echo ${{ github.event.comment.body }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
