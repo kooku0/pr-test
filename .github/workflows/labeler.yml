@@ -27,12 +27,7 @@ jobs:
               *) label="D-3+";;
             esac
 
-            echo "::set-output name=label::$label"
-
-            curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-              -H "Accept: application/vnd.github.v3+json" \
-              ${{ github.api_url }}/repos/${{ github.repository }}/issues/${{ github.event.number }}/labels \
-              -d "{\"labels\":[\"$label\"]}"
+            echo "LABEL=$label" >> $GITHUB_ENV
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
