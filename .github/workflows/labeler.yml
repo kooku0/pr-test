@@ -23,7 +23,8 @@ jobs:
           if [ -n "$dDay" ]; then
             labels=$(gh label list --json name --jq '.[].name')
             echo "$labels"
-            # labelExists=$(echo "$labels" | grep -o "$dDay")
+            labelExists=$(echo "jq -e --arg label "$dDay" '.[] | select(. == $label)' <<< "$labels" > /dev/null")
+            echo "$labelExists"
       
             # if [ -z "$labelExists" ]; then
             #   gh label create "$dDay"
