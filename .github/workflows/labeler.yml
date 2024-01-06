@@ -13,17 +13,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Extract urgency from PR body
-        id: extract-urgency
+      - name: Extract urgency and add labels
+        if: ${{ github.event_name == 'pull_request' && github.event.action == 'opened' || github.event.action == 'edited' }}
         run: |
           bodyText=$(echo "${{ github.event.pull_request.body }}")
           urgency=$(echo "$bodyText" | grep -o 'D-[0-9]')
           echo "Urgency: $urgency"
-          echo "::set-output name=urgency::$urgency"
-
-      - name: add labels
-        if: steps.extract-urgency.outputs.urgency != ''
-        run: |
-          gh pr edit ${{ github.event.pull_request.number }} --add-label ${{ steps.extract-urgency.outputs.urgency }}
+          
+          if [ -n "$urgency" ]; then
+            gh pr edit ${{ github.event.pull_request.number }} --add-label $urgency
+          fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
