@@ -21,7 +21,7 @@ jobs:
           echo "d-day: $dDay"
           
           if [ -n "$dDay" ]; then
-            labels=$(gh pr view ${{ github.event.pull_request.number }} --json labels --jq '.labels[].name')
+            labels=$(gh label list --json name --jq '.[].name' --raw-output)
             labelExists=$(echo "$labels" | grep -o "$dDay")
       
             if [ -z "$labelExists" ]; then
