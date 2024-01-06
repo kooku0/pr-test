@@ -23,7 +23,13 @@ jobs:
           if [ -n "$dDay" ]; then
             labels=$(gh label list --json name --jq '.[].name')
             echo "$labels"
-            labelExists=$(printf "%s\n" "${labels[@]}" | grep -o "^$dDay$")
+            labelExists=false
+            for label in "${labels[@]}"; do
+              if [ "$label" == "$dDay" ]; then
+                labelExists=true
+                break
+              fi
+            done
             echo "$labelExists"
       
             # if [ -z "$labelExists" ]; then
