@@ -21,14 +21,15 @@ jobs:
           echo "d-day: $dDay"
           
           if [ -n "$dDay" ]; then
-            labels=$(gh label list --json name)
-            labelExists=$(echo "$labels" | grep -o "$dDay")
+            labels=$(gh label list --json name --jq '.[].name')
+            echo: "$labels"
+            # labelExists=$(echo "$labels" | grep -o "$dDay")
       
-            if [ -z "$labelExists" ]; then
-              gh label create "$dDay"
-            fi
+            # if [ -z "$labelExists" ]; then
+            #   gh label create "$dDay"
+            # fi
       
-            gh pr edit ${{ github.event.pull_request.number }} --add-label "$dDay"
+            # gh pr edit ${{ github.event.pull_request.number }} --add-label "$dDay"
           fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
