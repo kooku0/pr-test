@@ -20,7 +20,7 @@ jobs:
           dDay=$(echo "$bodyText" | grep -o 'D-[0-9]')
           echo "d-day: $dDay"
 
-          labels=$(gh label list --json name --jq '.[].name')
+          labels=$(gh label list --json name')
           echo "$labels"
           
           # if [ -n "$dDay" ]; then
