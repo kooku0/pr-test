@@ -19,19 +19,16 @@ jobs:
           bodyText=$(echo "${{ github.event.pull_request.body }}")
           dDay=$(echo "$bodyText" | grep -o 'D-[0-9]')
           echo "d-day: $dDay"
-
-          labels=$(gh label list --json name)
-          echo "$labels"
           
-          # if [ -n "$dDay" ]; then
-          #   labels=$(gh label list --json name --jq '.[].name')
-          #   labelExists=$(echo "$labels" | grep -o "$dDay")
+          if [ -n "$dDay" ]; then
+            labels=$(gh label list --json name)
+            labelExists=$(echo "$labels" | grep -o "$dDay")
       
-          #   if [ -z "$labelExists" ]; then
-          #     gh label create "$dDay"
-          #   fi
+            if [ -z "$labelExists" ]; then
+              gh label create "$dDay"
+            fi
       
-          #   gh pr edit ${{ github.event.pull_request.number }} --add-label "$dDay"
-          # fi
+            gh pr edit ${{ github.event.pull_request.number }} --add-label "$dDay"
+          fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
