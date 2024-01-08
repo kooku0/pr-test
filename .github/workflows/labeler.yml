@@ -13,23 +13,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Extract d-day and add labels
-        if: ${{ github.event_name == 'pull_request' && github.event.action == 'opened' || github.event.action == 'edited' }}
+      - name: Add or Remove D-Day Label
+        if: ${{ github.event.action == 'opened' || github.event.action == 'edited' }}
         run: |
           bodyText=$(echo "${{ github.event.pull_request.body }}")
-          dDay=$(echo "$bodyText" | grep -o 'D-[0-9]')
+          dDay=$(echo "$bodyText" | grep -o 'D-[0-5]')
           echo "d-day: $dDay"
           
           if [ -n "$dDay" ]; then
-            labels=$(gh label list --json name --jq '.[].name')
-            labelExists=$(echo "$labels" | grep -o $dDay)
-            echo "$labelExists"
-      
-            # if [ -z "$labelExists" ]; then
-            #   gh label create "$dDay"
-            # fi
-      
-            # gh pr edit ${{ github.event.pull_request.number }} --add-label "$dDay"
+            gh pr edit ${{ github.event.pull_request.number }} --remove-label 'D-[0-5]' --add-label $dDay
           fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
