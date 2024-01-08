@@ -19,9 +19,18 @@ jobs:
           bodyText=$(echo "${{ github.event.pull_request.body }}")
           dDay=$(echo "$bodyText" | grep -o 'D-[0-5]')
           echo "d-day: $dDay"
-          
+      
           if [ -n "$dDay" ]; then
-            gh pr edit ${{ github.event.pull_request.number }} --remove-label 'D-[0-5]' --add-label $dDay
+            # Remove all existing D-[0-5] labels
+            existingLabels=$(gh pr view ${{ github.event.pull_request.number }} --json labels --jq '.labels[].name')
+            for label in $existingLabels; do
+              if [[ $label =~ ^D-[0-5]$ ]]; then
+                gh pr edit ${{ github.event.pull_request.number }} --remove-label "$label"
+              fi
+            done
+
+            # Add the new D-Day label
+            gh pr edit ${{ github.event.pull_request.number }} --add-label "$dDay"
           fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
