@@ -17,7 +17,7 @@ jobs:
         if: ${{ github.event.action == 'opened' || github.event.action == 'edited' }}
         run: |
           bodyText=$(echo "${{ github.event.pull_request.body }}")
-          dDay=$(echo "$bodyText" | grep -o 'D-[0-5]')
+          dDay=$(echo "$bodyText" | grep -o 'D-[0-5]' || true)
           echo "d-day: $dDay"
       
           if [ -n "$dDay" ]; then
